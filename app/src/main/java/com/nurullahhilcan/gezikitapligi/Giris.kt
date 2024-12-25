@@ -27,11 +27,6 @@ class Giris : AppCompatActivity() {
             insets
         }
         binding.girisButon.setOnClickListener{
-            //3 satır deneme amaçlı
-            val dbHelper = Database(this)
-            val users = dbHelper.getAllUsers()
-            println("Kayıtlı kullanıcılar: $users")
-            println("Veritabanı yolu: ${this.getDatabasePath("UserDB").absolutePath}")
 
             val username = binding.girisKullaniciAdi.text.toString()
             val password = binding.girisSifre.text.toString()

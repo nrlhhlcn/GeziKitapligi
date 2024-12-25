@@ -34,13 +34,11 @@ class Database(context: Context): SQLiteOpenHelper(context, "UserDB", null, 1) {
         """
 
 
-        println("2")
         return try {
             db.execSQL(insertQuery)
             true
         } catch (e: Exception) {
             e.printStackTrace()
-            println("adsda")
             false
         }
     }
@@ -56,21 +54,6 @@ class Database(context: Context): SQLiteOpenHelper(context, "UserDB", null, 1) {
         cursor.close()
         return isValid
     }
-    //deneme amaçlı
-    fun getAllUsers(): List<String> {
-        val db = readableDatabase
-        val query = "SELECT * FROM Users"
-        val cursor = db.rawQuery(query, null)
-        val users = mutableListOf<String>()
 
-        if (cursor.moveToFirst()) {
-            do {
-                val username = cursor.getString(cursor.getColumnIndexOrThrow("username"))
-                users.add(username)
-            } while (cursor.moveToNext())
-        }
-        cursor.close()
-        return users
-    }
 
 }
