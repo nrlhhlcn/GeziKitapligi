@@ -4,8 +4,11 @@ plugins {
 }
 
 android {
+    buildFeatures{
+        viewBinding = true
+    }
     namespace = "com.nurullahhilcan.gezikitapligi"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.nurullahhilcan.gezikitapligi"
@@ -18,6 +21,9 @@ android {
     }
 
     buildTypes {
+        debug { // Debug yapılandırması ekleniyor
+            isDebuggable = true // Uygulamanın debug modunda çalıştırılmasına izin verir
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
