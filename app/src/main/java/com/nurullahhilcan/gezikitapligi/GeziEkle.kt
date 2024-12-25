@@ -10,6 +10,7 @@ import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
@@ -37,7 +38,8 @@ class GeziEkle : AppCompatActivity() {
         setContentView(binding.root)
 
         // SQLite veritabanını oluştur
-        database = this.openOrCreateDatabase("Trips", Context.MODE_PRIVATE, null)
+        database = this.openOrCreateDatabase("Geziler", Context.MODE_PRIVATE, null)
+        createDatabaseTables()
 
         // Resim seçme işlemleri için ImageView'ları bağla
         binding.imageView1.setOnClickListener { selectImage(1) }
@@ -48,6 +50,16 @@ class GeziEkle : AppCompatActivity() {
         registerLauncher()
     }
 
+    private fun createDatabaseTables() {
+        try {
+            database.execSQL("CREATE TABLE IF NOT EXISTS trip (trip_id INTEGER PRIMARY KEY, tripName VARCHAR, ulke VARCHAR, ani VARCHAR)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS resimler (resim_id INTEGER PRIMARY KEY, trip_id INTEGER, image BLOB)")
+            Log.d("GeziEkle", "Tablolar başarıyla oluşturuldu.")
+        } catch (e: Exception) {
+            Log.e("GeziEkle", "Tablo oluşturulurken hata: ${e.localizedMessage}")
+        }
+    }
+
     fun kaydet(view: View) {
         val tripName = binding.tripName.text.toString()
         val countryName = binding.ulke.text.toString()
@@ -55,38 +67,37 @@ class GeziEkle : AppCompatActivity() {
 
         if (tripName.isNotEmpty() && countryName.isNotEmpty() && memory.isNotEmpty() && selectedBitmaps.isNotEmpty()) {
             try {
-                // Tabloları oluştur
-                database.execSQL("CREATE TABLE IF NOT EXISTS trip (trip_id INTEGER PRIMARY KEY, tripName VARCHAR, ulke VARCHAR, ani VARCHAR)")
-                database.execSQL("CREATE TABLE IF NOT EXISTS resim (resim_id INTEGER PRIMARY KEY, trip_id INTEGER, image BLOB)")
-
                 // Trip bilgilerini ekle
                 val tripStatement = database.compileStatement("INSERT INTO trip (tripName, ulke, ani) VALUES (?, ?, ?)")
                 tripStatement.bindString(1, tripName)
                 tripStatement.bindString(2, countryName)
                 tripStatement.bindString(3, memory)
-                val tripId = tripStatement.executeInsert() // Eklenen trip_id'yi al
+                val tripId = tripStatement.executeInsert()
 
-                // Resimleri ekle
-                val resimStatement = database.compileStatement("INSERT INTO resim (trip_id, image) VALUES (?, ?)")
-                for (bitmap in selectedBitmaps) {
-                    val smallBitmap = makeSmallerBitmap(bitmap, 300)
-                    val outputStream = ByteArrayOutputStream()
-                    smallBitmap.compress(Bitmap.CompressFormat.PNG, 50, outputStream)
-                    val byteArray = outputStream.toByteArray()
+                if (tripId != -1L) {
+                    // Resimleri ekle
+                    val resimStatement = database.compileStatement("INSERT INTO resimler (trip_id, image) VALUES (?, ?)")
+                    for (bitmap in selectedBitmaps) {
+                        val smallBitmap = makeSmallerBitmap(bitmap, 300)
+                        val outputStream = ByteArrayOutputStream()
+                        smallBitmap.compress(Bitmap.CompressFormat.JPEG, 50, outputStream)
+                        val byteArray = outputStream.toByteArray()
 
-                    resimStatement.bindLong(1, tripId)
-                    resimStatement.bindBlob(2, byteArray)
-                    resimStatement.execute()
+                        resimStatement.bindLong(1, tripId)
+                        resimStatement.bindBlob(2, byteArray)
+                        resimStatement.execute()
+                    }
+                    Toast.makeText(this, "Gezi başarıyla kaydedildi!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, MainActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(this, "Trip ID oluşturulamadı.", Toast.LENGTH_LONG).show()
                 }
-
-                // Başarı mesajı ve ana ekrana dön
-                Toast.makeText(this, "Gezi başarıyla kaydedildi!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, MainActivity::class.java)
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                startActivity(intent)
 
             } catch (e: Exception) {
                 e.printStackTrace()
+                println("Hata: ${e.localizedMessage}")
                 Toast.makeText(this, "Hata: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
             }
         } else {

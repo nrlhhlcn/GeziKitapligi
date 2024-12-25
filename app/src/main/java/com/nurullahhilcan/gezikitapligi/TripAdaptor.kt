@@ -19,8 +19,10 @@ class TripAdaptor(val artList:ArrayList<Trip>): RecyclerView.Adapter<TripAdaptor
         return  artList.size
     }
     override fun onBindViewHolder(holder: TripHolder, position: Int) {
-       holder.binding.textView2.text="Ali"
-        holder.binding.imageView4.setBackgroundResource(R.drawable.select_button)
+       holder.binding.textView2.text=artList.get(position).tripName.toString()
+        holder.binding.imageView4.setImageBitmap(artList[position].image)  // setImageBitmap kullanın
+
+
         holder.itemView.setOnClickListener{
             val intent= Intent(holder.itemView.context,GeziEkle::class.java)
 

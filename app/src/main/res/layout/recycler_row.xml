@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="250dp"
-    android:background="#0194D7">
+    android:layout_height="150dp"
+    android:layout_margin="25dp"
+    android:background="#033E56">
 
     <ImageView
         android:id="@+id/imageView4"
-        android:layout_width="202dp"
-        android:layout_height="217dp"
-        android:layout_marginStart="8dp"
+        android:layout_width="124dp"
+        android:layout_height="99dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -18,13 +19,14 @@
 
     <TextView
         android:id="@+id/textView2"
-        android:layout_width="319dp"
-        android:layout_height="60dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="16dp"
+        android:layout_width="137dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="28dp"
         android:text="Gezilen Yer İsmi"
         android:textAlignment="center"
-        android:textSize="34sp"
+        android:textColor="#EEE"
+        android:textSize="16sp"
         app:layout_constraintStart_toEndOf="@+id/imageView4"
         app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

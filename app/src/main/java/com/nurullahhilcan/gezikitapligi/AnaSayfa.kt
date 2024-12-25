@@ -2,6 +2,7 @@ package com.nurullahhilcan.gezikitapligi
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.View
 import androidx.activity.enableEdgeToEdge
@@ -15,8 +16,8 @@ import java.lang.Exception
 
 class AnaSayfa : AppCompatActivity() {
     private lateinit var binding: ActivityAnaSayfaBinding
-    private lateinit var artList : ArrayList<Trip>
-    private lateinit var artAdapter : TripAdaptor
+    private lateinit var tripList: ArrayList<Trip>
+    private lateinit var artAdapter: TripAdaptor
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAnaSayfaBinding.inflate(layoutInflater)
@@ -27,43 +28,58 @@ class AnaSayfa : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        artList = ArrayList<Trip>()
-        artAdapter = TripAdaptor(artList)
+        tripList = ArrayList<Trip>()
+        artAdapter = TripAdaptor(tripList)
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
         binding.recyclerView.adapter = artAdapter
 
         try {
+            val database = this.openOrCreateDatabase("Geziler", Context.MODE_PRIVATE, null)
+            database.execSQL("CREATE TABLE IF NOT EXISTS trip (trip_id INTEGER PRIMARY KEY, tripName VARCHAR, ulke VARCHAR, ani VARCHAR)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS resimler (resim_id INTEGER PRIMARY KEY, trip_id INTEGER, image BLOB)")
+            println("hata-1")
+            val cursor = database.rawQuery(
+                """
+        SELECT trip.tripName , trip.ulke, trip.ani , resimler.image
+        FROM trip
+        LEFT JOIN resimler ON trip.trip_id = resimler.trip_id
+        """, null
+            )
+            println("hata-2")
 
-            val database = this.openOrCreateDatabase("Arts", Context.MODE_PRIVATE,null)
-            database.execSQL("CREATE TABLE IF NOT EXISTS trip (id INTEGER PRIMARY KEY, tripName VARCHAR,ulke VARCHAR,ani VARCHAR)")
-
-            val cursor = database.rawQuery("SELECT * FROM trip",null)
             val trimNameIx = cursor.getColumnIndex("tripName")
             val ulkeIx = cursor.getColumnIndex("ulke")
             val aniIx = cursor.getColumnIndex("ani")
-
-            val idIx = cursor.getColumnIndex("id")
-
+            val imageIx = cursor.getColumnIndex("image")
+            println("deneme")
             while (cursor.moveToNext()) {
-                val tripName = cursor.getString(trimNameIx)
-                val id = cursor.getInt(idIx)
-                val ulke=cursor.getString(ulkeIx)
-                val ani=cursor.getString(aniIx)
 
-                val art = Trip(tripName,ulke,ani)
-                artList.add(art)
+                val tripName = cursor.getString(trimNameIx)
+                val ulke = cursor.getString(ulkeIx)
+                println(ulke)
+                val ani = cursor.getString(aniIx)
+
+                val image = if (!cursor.isNull(imageIx)) cursor.getBlob(imageIx) else null
+                val bitmap =
+                    if (image != null) BitmapFactory.decodeByteArray(image, 0, image.size) else null
+
+                val trip = Trip(tripName, ulke, ani, bitmap)
+                println("sadda")
+                tripList.add(trip)
             }
 
             artAdapter.notifyDataSetChanged()
-
             cursor.close()
 
         } catch (e: Exception) {
+            println("hataaaa")
             e.printStackTrace()
         }
+
     }
-    fun geziEkle(view: View){
-        var intent= Intent(this@AnaSayfa,GeziEkle::class.java)
+
+    fun geziEkle(view: View) {
+        var intent = Intent(this@AnaSayfa, GeziEkle::class.java)
         startActivity(intent)
     }
 }
