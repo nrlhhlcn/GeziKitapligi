@@ -5,6 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#D9EAFD"
     tools:context=".AnaSayfa">
 
     <TextView
@@ -13,7 +14,7 @@
         android:layout_height="60dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="36dp"
-        android:text="Merhaba USER"
+        android:text="Merhaba"
         android:textAlignment="viewStart"
         android:textSize="34sp"
         app:layout_constraintStart_toStartOf="parent"

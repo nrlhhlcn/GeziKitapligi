@@ -11,7 +11,8 @@
         android:id="@+id/imageView1"
         android:layout_width="99dp"
         android:layout_height="114dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
         android:onClick="selectImage"
         android:src="@drawable/select_button"
         app:layout_constraintStart_toStartOf="@+id/ani"
@@ -23,7 +24,7 @@
         android:layout_height="114dp"
 
 
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:onClick="selectImage"
         android:src="@drawable/select_button"
         app:layout_constraintStart_toStartOf="@+id/button"
@@ -33,7 +34,8 @@
         android:id="@+id/imageView3"
         android:layout_width="99dp"
         android:layout_height="114dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         android:onClick="selectImage"
         android:src="@drawable/select_button"
         app:layout_constraintEnd_toEndOf="@+id/ani"
@@ -55,9 +57,23 @@
         android:id="@+id/ani"
         android:layout_width="389dp"
         android:layout_height="171dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="24dp"
         android:text="Anılarınız"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
+
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="118dp"
+        android:layout_height="52dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="1dp"
+        android:entries="@array/categories"
+        android:scrollbarSize="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.157"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/ulke" />
 
@@ -77,11 +93,33 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="40dp"
         android:onClick="kaydet"
         android:text="Kaydet"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView2" />
+
+    <TextView
+        android:id="@+id/saatText"
+        android:layout_width="100dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:text="TextView"
+        app:layout_constraintStart_toEndOf="@+id/imageView9"
+        app:layout_constraintTop_toTopOf="@+id/imageView9" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="83dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="24dp"
+        android:onClick="openDatePicker"
+        app:layout_constraintBottom_toBottomOf="@+id/spinner"
+        app:layout_constraintStart_toEndOf="@+id/spinner"
+        app:layout_constraintTop_toTopOf="@+id/spinner"
+        app:srcCompat="@drawable/clock" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

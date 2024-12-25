@@ -16,6 +16,15 @@
         android:theme="@style/Theme.GeziKitapligi"
         tools:targetApi="31">
         <activity
+            android:name=".DetaySayfasi"
+            android:exported="false" />
+        <activity
+            android:name=".KayitOl"
+            android:exported="false" />
+        <activity
+            android:name=".Giris"
+            android:exported="false" />
+        <activity
             android:name=".GeziEkle"
             android:exported="false" />
         <activity

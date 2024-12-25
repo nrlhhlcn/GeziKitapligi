@@ -1,17 +1,20 @@
 package com.nurullahhilcan.gezikitapligi
 
 import android.Manifest
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.sqlite.SQLiteDatabase
 import android.graphics.Bitmap
 import android.graphics.ImageDecoder
+import android.icu.util.Calendar
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.View
+import android.widget.AdapterView
 import android.widget.Toast
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
@@ -32,6 +35,8 @@ class GeziEkle : AppCompatActivity() {
     private lateinit var database: SQLiteDatabase
     private var selectedImageViewId: Int = 0
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityGeziEkleBinding.inflate(layoutInflater)
@@ -48,16 +53,54 @@ class GeziEkle : AppCompatActivity() {
 
         // Launcher'ları kaydet
         registerLauncher()
+
+
+
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                // Seçilen öğeyi al
+                val selectedCategory = parent.getItemAtPosition(position).toString()
+
+            }
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Boş seçim durumu
+            }
+        }
     }
 
     private fun createDatabaseTables() {
         try {
-            database.execSQL("CREATE TABLE IF NOT EXISTS trip (trip_id INTEGER PRIMARY KEY, tripName VARCHAR, ulke VARCHAR, ani VARCHAR)")
-            database.execSQL("CREATE TABLE IF NOT EXISTS resimler (resim_id INTEGER PRIMARY KEY, trip_id INTEGER, image BLOB)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS trip (trip_id INTEGER PRIMARY KEY, user_id VARCHAR, tripName VARCHAR, ulke VARCHAR, ani VARCHAR)")
+            database.execSQL("CREATE TABLE IF NOT EXISTS resimler (resim_id INTEGER PRIMARY KEY,user_id VARCHAR, trip_id INTEGER, image BLOB)")
             Log.d("GeziEkle", "Tablolar başarıyla oluşturuldu.")
         } catch (e: Exception) {
             Log.e("GeziEkle", "Tablo oluşturulurken hata: ${e.localizedMessage}")
         }
+    }
+    fun openDatePicker(view: View) {
+        // Tarih seçici açmak için bir DatePickerDialog kullanıyoruz
+        val calendar = Calendar.getInstance()
+        val year = calendar.get(Calendar.YEAR)
+        val month = calendar.get(Calendar.MONTH)
+        val day = calendar.get(Calendar.DAY_OF_MONTH)
+
+        val datePickerDialog = DatePickerDialog(
+            this,
+            { _, year, monthOfYear, dayOfMonth ->
+                // Seçilen tarihi bir String olarak alıyoruz
+                val date = String.format("%02d/%02d/%04d", dayOfMonth, monthOfYear + 1, year)
+              binding.saatText.text= date  // Seçilen tarihi TextView'da gösteriyoruz
+            },
+            year, month, day
+        )
+
+        datePickerDialog.show()  // DatePicker'ı gösteriyoruz
     }
 
     fun kaydet(view: View) {
@@ -68,10 +111,11 @@ class GeziEkle : AppCompatActivity() {
         if (tripName.isNotEmpty() && countryName.isNotEmpty() && memory.isNotEmpty() && selectedBitmaps.isNotEmpty()) {
             try {
                 // Trip bilgilerini ekle
-                val tripStatement = database.compileStatement("INSERT INTO trip (tripName, ulke, ani) VALUES (?, ?, ?)")
+                val tripStatement = database.compileStatement("INSERT INTO trip ( tripName , ulke , ani ) VALUES (?, ?, ?)")
                 tripStatement.bindString(1, tripName)
                 tripStatement.bindString(2, countryName)
                 tripStatement.bindString(3, memory)
+
                 val tripId = tripStatement.executeInsert()
 
                 if (tripId != -1L) {
@@ -88,8 +132,8 @@ class GeziEkle : AppCompatActivity() {
                         resimStatement.execute()
                     }
                     Toast.makeText(this, "Gezi başarıyla kaydedildi!", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                    val intent = Intent(this, AnaSayfa::class.java)
+
                     startActivity(intent)
                 } else {
                     Toast.makeText(this, "Trip ID oluşturulamadı.", Toast.LENGTH_LONG).show()

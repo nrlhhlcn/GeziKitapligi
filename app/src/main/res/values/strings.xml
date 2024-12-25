@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">GeziKitapligi</string>
+    <string name="app_name">Trip</string>
+    <string-array name="categories">
+        <item>Eğlence</item>
+        <item>Yemek</item>
+        <item>Kültür</item>
+        <item>Doğa</item>
+    </string-array>
 </resources>

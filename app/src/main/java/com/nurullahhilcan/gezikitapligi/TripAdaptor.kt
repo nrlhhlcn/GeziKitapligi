@@ -24,7 +24,8 @@ class TripAdaptor(val artList:ArrayList<Trip>): RecyclerView.Adapter<TripAdaptor
 
 
         holder.itemView.setOnClickListener{
-            val intent= Intent(holder.itemView.context,GeziEkle::class.java)
+            val intent= Intent(holder.itemView.context,DetaySayfasi::class.java)
+
 
             holder.itemView.context.startActivity(intent)
         }
