@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace = "com.nurullahhilcan.gezikitapligi"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.nurullahhilcan.gezikitapligi"
         minSdk = 27
-        targetSdk = 34
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
 
@@ -32,6 +32,9 @@ android {
     }
     kotlinOptions {
         jvmTarget = "11"
+    }
+    buildFeatures {
+        viewBinding=true
     }
 }
 
