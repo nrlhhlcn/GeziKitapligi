@@ -58,19 +58,19 @@ class AnaSayfa : AppCompatActivity() {
 
             println("hata-2")
 
-            val trimNameIx = cursor.getColumnIndex("tripName")
-            val ulkeIx = cursor.getColumnIndex("ulke")
-            val aniIx = cursor.getColumnIndex("ani")
-            val imageIx = cursor.getColumnIndex("image")
+            val trimNameId = cursor.getColumnIndex("tripName")
+            val ulkeId = cursor.getColumnIndex("ulke")
+            val aniId = cursor.getColumnIndex("ani")
+            val imageId = cursor.getColumnIndex("image")
             println("deneme")
             while (cursor.moveToNext()) {
 
-                val tripName = cursor.getString(trimNameIx)
-                val ulke = cursor.getString(ulkeIx)
+                val tripName = cursor.getString(trimNameId)
+                val ulke = cursor.getString(ulkeId)
                 println(ulke)
-                val ani = cursor.getString(aniIx)
+                val ani = cursor.getString(aniId)
 
-                val image = if (!cursor.isNull(imageIx)) cursor.getBlob(imageIx) else null
+                val image = if (!cursor.isNull(imageId)) cursor.getBlob(imageId) else null
                 val bitmap =
                     if (image != null) BitmapFactory.decodeByteArray(image, 0, image.size) else null
 

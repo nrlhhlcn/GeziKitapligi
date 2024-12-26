@@ -7,64 +7,82 @@
     android:layout_height="match_parent"
     tools:context=".Giris">
 
-    <Button
-        android:id="@+id/girisButon"
-        android:layout_width="115dp"
-        android:layout_height="67dp"
-        android:text="Giriş"
-        app:layout_constraintBottom_toTopOf="@+id/textView"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout2"
+        android:layout_width="406dp"
+        android:layout_height="451dp"
+        android:layout_marginBottom="120dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/girisSifre" />
+        app:layout_constraintStart_toStartOf="parent">
 
-    <EditText
-        android:id="@+id/girisKullaniciAdi"
-        android:layout_width="230dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="120dp"
-        android:ems="10"
-        android:hint="Kullanıcı Adı"
-        android:inputType="text"
-        app:layout_constraintBottom_toTopOf="@+id/girisSifre"
+        <EditText
+            android:id="@+id/girisSifre"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="30dp"
+            android:ems="10"
+            android:hint="Parola"
+            android:inputType="textPassword"
+            app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/girisKullaniciAdi"
+            android:layout_width="230dp"
+            android:layout_height="60dp"
+            android:layout_marginBottom="20dp"
+            android:ems="10"
+            android:hint="Kullanıcı Adı"
+            android:inputType="text"
+            app:layout_constraintBottom_toTopOf="@+id/girisSifre"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayout"
+            android:layout_width="345dp"
+            android:layout_height="114dp"
+            android:layout_marginBottom="36dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.508"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <Button
+                android:id="@+id/girisKayitButon"
+                android:layout_width="103dp"
+                android:layout_height="55dp"
+                android:layout_marginEnd="40dp"
+                android:text="Kayıt Ol"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.51" />
+
+            <Button
+                android:id="@+id/girisButon"
+                android:layout_width="99dp"
+                android:layout_height="57dp"
+                android:layout_marginStart="40dp"
+                android:text="Giriş"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="157dp"
+        android:layout_height="41dp"
+        android:text="Trip Diary"
+        android:textSize="34sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/girisSifre"
-        android:layout_width="230dp"
-        android:layout_height="60dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginBottom="73dp"
-        android:ems="10"
-        android:hint="Parola"
-        android:inputType="textPassword"
-        app:layout_constraintBottom_toTopOf="@+id/girisButon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/girisKullaniciAdi" />
-
-    <Button
-        android:id="@+id/girisKayitButon"
-        android:layout_width="115dp"
-        android:layout_height="67dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="67dp"
-        android:text="Kayıt Ol"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="247dp"
-        android:layout_height="57dp"
-        android:layout_marginTop="128dp"
-        android:text="Hesabınız yoksa lütfen Kayıt Olun"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toTopOf="@+id/girisKayitButon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/girisButon" />
 </androidx.constraintlayout.widget.ConstraintLayout>
